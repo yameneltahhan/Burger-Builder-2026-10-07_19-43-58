@@ -4,8 +4,15 @@ using TMPro;
 
 public class Chronometre : MonoBehaviour
 {
+    [Header("Chronomètre")]
     public float tempsRestant = 120f;
     public TMP_Text texteChronometre;
+
+    [Header("Game Over")]
+    public GameOverManager gameOverManager;
+
+    [Header("Score")]
+    public BurgerManager burgerManager;
 
     private bool jeuTermine = false;
 
@@ -17,9 +24,7 @@ public class Chronometre : MonoBehaviour
     void Update()
     {
         if (jeuTermine)
-        {
             return;
-        }
 
         tempsRestant -= Time.deltaTime;
 
@@ -27,8 +32,16 @@ public class Chronometre : MonoBehaviour
         {
             tempsRestant = 0f;
             jeuTermine = true;
+            burgerManager.partieTerminee = true;
 
-            Debug.Log("Temps écoulé ! Game Over !");
+
+            AfficherTemps();
+
+            int scoreFinal = burgerManager.totalEtoiles;
+            gameOverManager.AfficherGameOver(scoreFinal);
+
+            Debug.Log("Temps terminé !");
+            return;
         }
 
         AfficherTemps();
