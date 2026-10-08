@@ -1,13 +1,14 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class BurgerManager : MonoBehaviour
 {
     [Header("Ingrédients du joueur")]
     public List<Ingredient> ingredients = new List<Ingredient>();
 
-    [Header("Prefabs")]
+    [Header("Prefabs des ingrédients")]
     public Ingredient viande;
     public Ingredient fromage;
     public Ingredient salade;
@@ -22,10 +23,45 @@ public class BurgerManager : MonoBehaviour
     [Header("Commande client")]
     public CommandeClient commandeClient;
 
-    // Position du prochain ingrédient attendu
+    [Header("Score")]
+    public TMP_Text texteEtoiles;
+
+    private int totalEtoiles = 0;
     private int indexIngredient = 0;
 
-    // Vérifier si le joueur a choisi le bon ingrédient
+    void Start()
+    {
+        // Afficher le score initial
+        AfficherScore();
+    }
+
+    // Calculer les étoiles selon la taille de la commande
+    public int CalculerEtoiles(int nombreIngredients)
+    {
+        if (nombreIngredients <= 4)
+        {
+            return 1;
+        }
+        else if (nombreIngredients <= 6)
+        {
+            return 2;
+        }
+        else
+        {
+            return 3;
+        }
+    }
+
+    // Mettre à jour le texte du score
+    public void AfficherScore()
+    {
+        if (texteEtoiles != null)
+        {
+            texteEtoiles.text = "          "+ totalEtoiles;
+        }
+    }
+
+    // Vérifier l'ingrédient choisi
     public bool VerifierIngredient(Ingredient ingredientChoisi)
     {
         if (commandeClient == null ||
@@ -47,8 +83,10 @@ public class BurgerManager : MonoBehaviour
 
         Debug.Log("Mauvais ingrédient !");
 
-        // Supprimer le burger et recommencer
+        // Supprimer le burger
         ViderBurger();
+
+        // Recommencer la même commande
         indexIngredient = 0;
 
         // Remettre la flèche au début
@@ -57,30 +95,43 @@ public class BurgerManager : MonoBehaviour
         return false;
     }
 
-    // Méthode appelée par les boutons
+    // Méthode principale appelée par les boutons
     public void ChoisirIngredient(Ingredient ingredientChoisi)
     {
-        // Vérifier AVANT de créer l'objet
+        // Vérifier avant de créer l'ingrédient
         if (!VerifierIngredient(ingredientChoisi))
         {
             return;
         }
 
-        // Créer l'ingrédient correct
+        // Créer le bon ingrédient
         Ingredient nouvelIngredient = Instantiate(ingredientChoisi);
 
-        // Ajouter l'ingrédient au burger
+        // L'ajouter au burger
         AddIngredient(nouvelIngredient);
 
         // Passer à l'ingrédient suivant
         indexIngredient++;
 
-        // Vérifier si le burger est terminé
+        // Vérifier si la commande est terminée
         if (indexIngredient >= commandeClient.ingredients.Count)
         {
             Debug.Log("Commande terminée avec succès !");
 
-            // Vider le burger terminé
+            // Calculer les étoiles gagnées
+            int etoilesGagnees =
+                CalculerEtoiles(commandeClient.ingredients.Count);
+
+            // Ajouter les étoiles au score total
+            totalEtoiles += etoilesGagnees;
+
+            // Actualiser l'affichage
+            AfficherScore();
+
+            Debug.Log("Étoiles gagnées : " + etoilesGagnees);
+            Debug.Log("Total étoiles : " + totalEtoiles);
+
+            // Supprimer le burger terminé
             ViderBurger();
 
             // Générer une nouvelle commande
@@ -88,6 +139,8 @@ public class BurgerManager : MonoBehaviour
 
             // Recommencer au premier ingrédient
             indexIngredient = 0;
+
+            // Remettre la flèche au début
             ReinitialiserFleche();
         }
         else
@@ -97,6 +150,7 @@ public class BurgerManager : MonoBehaviour
         }
     }
 
+    // Afficher un ingrédient sur le plateau
     public void AddIngredient(Ingredient ingredient)
     {
         ingredients.Add(ingredient);
@@ -105,20 +159,23 @@ public class BurgerManager : MonoBehaviour
         float y = -3f + (ingredients.Count * 0.2f);
 
         // Position du burger
-        ingredient.transform.position = new Vector3(-5f, y, 0f);
+        ingredient.transform.position =
+            new Vector3(-5f, y, 0f);
 
         // Taille des ingrédients
-        ingredient.transform.localScale = Vector3.one * 4.5f;
+        ingredient.transform.localScale =
+            Vector3.one * 4.5f;
 
         // Ordre d'affichage
-        SpriteRenderer sprite = ingredient.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite =
+            ingredient.GetComponent<SpriteRenderer>();
 
         if (sprite != null)
         {
             sprite.sortingOrder = ingredients.Count;
         }
 
-        Debug.Log("Ingredient added: " + ingredient.name);
+        Debug.Log("Ingrédient ajouté : " + ingredient.name);
     }
 
     // Supprimer tous les ingrédients du burger
@@ -146,11 +203,13 @@ public class BurgerManager : MonoBehaviour
 
             position.y = 0.85f;
 
-            commandeClient.flecheCommande.localPosition = position;
+            commandeClient.flecheCommande.localPosition =
+                position;
         }
     }
 
-    // Méthodes des boutons
+    // Fonctions des boutons d'ingrédients
+
     public void AjouterViande()
     {
         ChoisirIngredient(viande);
