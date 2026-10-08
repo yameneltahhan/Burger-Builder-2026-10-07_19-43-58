@@ -26,7 +26,9 @@ public class BurgerManager : MonoBehaviour
     [Header("Score")]
     public TMP_Text texteEtoiles;
 
-    private int totalEtoiles = 0;
+    public int totalEtoiles = 0;
+
+    public bool partieTerminee = false;
     private int indexIngredient = 0;
 
     void Start()
@@ -98,6 +100,10 @@ public class BurgerManager : MonoBehaviour
     // Méthode principale appelée par les boutons
     public void ChoisirIngredient(Ingredient ingredientChoisi)
     {
+        if (partieTerminee)
+        {
+            return;
+        }
         // Vérifier avant de créer l'ingrédient
         if (!VerifierIngredient(ingredientChoisi))
         {
