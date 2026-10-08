@@ -1,9 +1,13 @@
+
 using UnityEngine;
 using System.Collections.Generic;
 
 public class BurgerManager : MonoBehaviour
 {
+    [Header("Ingrédients du joueur")]
     public List<Ingredient> ingredients = new List<Ingredient>();
+
+    [Header("Prefabs")]
     public Ingredient viande;
     public Ingredient fromage;
     public Ingredient salade;
@@ -15,83 +19,185 @@ public class BurgerManager : MonoBehaviour
     public Ingredient mayonnaise;
     public Ingredient poisson;
 
+    [Header("Commande client")]
+    public CommandeClient commandeClient;
+
+    // Position du prochain ingrédient attendu
+    private int indexIngredient = 0;
+
+    // Vérifier si le joueur a choisi le bon ingrédient
+    public bool VerifierIngredient(Ingredient ingredientChoisi)
+    {
+        if (commandeClient == null ||
+            commandeClient.ingredients.Count == 0 ||
+            indexIngredient >= commandeClient.ingredients.Count)
+        {
+            Debug.LogWarning("Commande non disponible !");
+            return false;
+        }
+
+        Ingredient ingredientAttendu =
+            commandeClient.ingredients[indexIngredient];
+
+        if (ingredientChoisi == ingredientAttendu)
+        {
+            Debug.Log("Bon ingrédient : " + ingredientChoisi.name);
+            return true;
+        }
+
+        Debug.Log("Mauvais ingrédient !");
+
+        // Supprimer le burger et recommencer
+        ViderBurger();
+        indexIngredient = 0;
+
+        // Remettre la flèche au début
+        ReinitialiserFleche();
+
+        return false;
+    }
+
+    // Méthode appelée par les boutons
+    public void ChoisirIngredient(Ingredient ingredientChoisi)
+    {
+        // Vérifier AVANT de créer l'objet
+        if (!VerifierIngredient(ingredientChoisi))
+        {
+            return;
+        }
+
+        // Créer l'ingrédient correct
+        Ingredient nouvelIngredient = Instantiate(ingredientChoisi);
+
+        // Ajouter l'ingrédient au burger
+        AddIngredient(nouvelIngredient);
+
+        // Passer à l'ingrédient suivant
+        indexIngredient++;
+
+        // Vérifier si le burger est terminé
+        if (indexIngredient >= commandeClient.ingredients.Count)
+        {
+            Debug.Log("Commande terminée avec succès !");
+
+            // Vider le burger terminé
+            ViderBurger();
+
+            // Générer une nouvelle commande
+            commandeClient.GenererCommande();
+
+            // Recommencer au premier ingrédient
+            indexIngredient = 0;
+            ReinitialiserFleche();
+        }
+        else
+        {
+            // Faire monter la flèche
+            commandeClient.AvancerFleche();
+        }
+    }
+
     public void AddIngredient(Ingredient ingredient)
     {
-        // Ajouter l'ingrédient à la liste
         ingredients.Add(ingredient);
 
-        // Calculer sa hauteur
+        // Calculer la hauteur
         float y = -3f + (ingredients.Count * 0.2f);
 
-        // Déplacer l'ingrédient
-        ingredient.transform.position = new Vector3(-5f, y, 0);
-        // Agrandir l'ingrédient à 150 %
+        // Position du burger
+        ingredient.transform.position = new Vector3(-5f, y, 0f);
+
+        // Taille des ingrédients
         ingredient.transform.localScale = Vector3.one * 4.5f;
 
-        // Mettre le nouvel ingrédient devant les précédents
+        // Ordre d'affichage
         SpriteRenderer sprite = ingredient.GetComponent<SpriteRenderer>();
-        sprite.sortingOrder = ingredients.Count;
+
+        if (sprite != null)
+        {
+            sprite.sortingOrder = ingredients.Count;
+        }
 
         Debug.Log("Ingredient added: " + ingredient.name);
     }
 
+    // Supprimer tous les ingrédients du burger
+    public void ViderBurger()
+    {
+        foreach (Ingredient ingredient in ingredients)
+        {
+            if (ingredient != null)
+            {
+                Destroy(ingredient.gameObject);
+            }
+        }
+
+        ingredients.Clear();
+    }
+
+    // Remettre la flèche à sa position initiale
+    public void ReinitialiserFleche()
+    {
+        if (commandeClient != null &&
+            commandeClient.flecheCommande != null)
+        {
+            Vector3 position =
+                commandeClient.flecheCommande.localPosition;
+
+            position.y = 0.85f;
+
+            commandeClient.flecheCommande.localPosition = position;
+        }
+    }
+
+    // Méthodes des boutons
     public void AjouterViande()
     {
-        Ingredient nouvelleViande = Instantiate(viande);
-        AddIngredient(nouvelleViande);
+        ChoisirIngredient(viande);
     }
 
     public void AjouterFromage()
     {
-        Ingredient nouveauFromage = Instantiate(fromage);
-        AddIngredient(nouveauFromage);
+        ChoisirIngredient(fromage);
     }
 
     public void AjouterSalade()
     {
-        Ingredient nouvelleSalade = Instantiate(salade);
-        AddIngredient(nouvelleSalade);
+        ChoisirIngredient(salade);
     }
 
     public void AjouterOignon()
     {
-        Ingredient nouveauOignon = Instantiate(oignon);
-        AddIngredient(nouveauOignon);
+        ChoisirIngredient(oignon);
     }
 
     public void AjouterTomate()
     {
-        Ingredient nouvelleTomate = Instantiate(tomate);
-        AddIngredient(nouvelleTomate);
+        ChoisirIngredient(tomate);
     }
 
     public void AjouterPainBas()
     {
-        Ingredient nouveauPainBas = Instantiate(painbas);
-        AddIngredient(nouveauPainBas);
+        ChoisirIngredient(painbas);
     }
 
     public void AjouterPainHaut()
     {
-        Ingredient nouveauPainHaut = Instantiate(painhaut);
-        AddIngredient(nouveauPainHaut);
+        ChoisirIngredient(painhaut);
     }
 
     public void AjouterKetchup()
     {
-        Ingredient nouveauKetchup = Instantiate(ketchup);
-        AddIngredient(nouveauKetchup);
+        ChoisirIngredient(ketchup);
     }
 
     public void AjouterMayonnaise()
     {
-        Ingredient nouvelleMayonnaise = Instantiate(mayonnaise);
-        AddIngredient(nouvelleMayonnaise);
+        ChoisirIngredient(mayonnaise);
     }
 
     public void AjouterPoisson()
     {
-        Ingredient nouveauPoisson = Instantiate(poisson);
-        AddIngredient(nouveauPoisson);
+        ChoisirIngredient(poisson);
     }
 }

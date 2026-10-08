@@ -28,6 +28,9 @@ public class CommandeClient : MonoBehaviour
     public float espacementY = 0.4f;
     public float taille = 0.6f;
 
+
+    public Transform flecheCommande;
+
     void Start()
     {
         GenererCommande();
@@ -144,5 +147,9 @@ public class CommandeClient : MonoBehaviour
             // Afficher devant le panneau
             emplacement.sortingOrder = 20 + i;
         }
+    }
+    public void AvancerFleche()
+    {
+        flecheCommande.localPosition += new Vector3(0f, 0.4f, 0f);
     }
 }
