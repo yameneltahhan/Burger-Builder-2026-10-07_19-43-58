@@ -24,7 +24,9 @@ public class BurgerManager : MonoBehaviour
         float y = -3f + (ingredients.Count * 0.2f);
 
         // Déplacer l'ingrédient
-        ingredient.transform.position = new Vector3(0, y, 0);
+        ingredient.transform.position = new Vector3(-5f, y, 0);
+        // Agrandir l'ingrédient à 150 %
+        ingredient.transform.localScale = Vector3.one * 4.5f;
 
         // Mettre le nouvel ingrédient devant les précédents
         SpriteRenderer sprite = ingredient.GetComponent<SpriteRenderer>();
