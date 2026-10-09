@@ -32,15 +32,16 @@ public class Chronometre : MonoBehaviour
         {
             tempsRestant = 0f;
             jeuTermine = true;
-            burgerManager.partieTerminee = true;
-
 
             AfficherTemps();
 
+            burgerManager.partieTerminee = true;
+
             int scoreFinal = burgerManager.totalEtoiles;
+
             gameOverManager.AfficherGameOver(scoreFinal);
 
-            Debug.Log("Temps terminé !");
+            Debug.Log("Game Over déclenché !");
             return;
         }
 
@@ -54,11 +55,7 @@ public class Chronometre : MonoBehaviour
         int minutes = secondesTotales / 60;
         int secondes = secondesTotales % 60;
 
-        if (texteChronometre != null)
-        {
-            texteChronometre.text =
-                minutes.ToString("00") + ":" +
-                secondes.ToString("00");
-        }
+        texteChronometre.text = minutes.ToString("00")
+            + ":" + secondes.ToString("00");
     }
 }

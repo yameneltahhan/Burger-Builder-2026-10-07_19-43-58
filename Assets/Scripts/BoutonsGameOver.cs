@@ -12,6 +12,6 @@ public class BoutonsGameOver : MonoBehaviour
     public void Rejouer()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("BurgerGame");
     }
 }

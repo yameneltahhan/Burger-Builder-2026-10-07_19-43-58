@@ -5,6 +5,6 @@ public class MenuPrincipal : MonoBehaviour
 {
     public void Jouer()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("burgerGame");
     }
 }
