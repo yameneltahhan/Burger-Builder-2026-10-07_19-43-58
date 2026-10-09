@@ -23,6 +23,9 @@ public class BurgerManager : MonoBehaviour
     [Header("Commande client")]
     public CommandeClient commandeClient;
 
+    [Header("Gestion des sons")]
+    public AudioManager audioManager;
+
     [Header("Score")]
     public TMP_Text texteEtoiles;
 
@@ -85,6 +88,11 @@ public class BurgerManager : MonoBehaviour
 
         Debug.Log("Mauvais ingrédient !");
 
+        if (audioManager != null)
+        {
+            audioManager.JouerSonMauvaiseReponse();
+        }
+
         // Supprimer le burger
         ViderBurger();
 
@@ -123,7 +131,11 @@ public class BurgerManager : MonoBehaviour
         if (indexIngredient >= commandeClient.ingredients.Count)
         {
             Debug.Log("Commande terminée avec succès !");
-
+            // Jouer le son de réussite
+            if (audioManager != null)
+            {
+                audioManager.JouerSonBonneReponse();
+            }
             // Calculer les étoiles gagnées
             int etoilesGagnees =
                 CalculerEtoiles(commandeClient.ingredients.Count);
