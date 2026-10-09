@@ -29,6 +29,9 @@ public class BurgerManager : MonoBehaviour
     [Header("Score")]
     public TMP_Text texteEtoiles;
 
+    [Header("flash de machine")]
+    public FlashCommande flashCommande;
+
     public int totalEtoiles = 0;
 
     public bool partieTerminee = false;
@@ -88,6 +91,11 @@ public class BurgerManager : MonoBehaviour
 
         Debug.Log("Mauvais ingrédient !");
 
+        if (flashCommande != null)
+        {
+            flashCommande.FlashRouge();
+        }
+
         if (audioManager != null)
         {
             audioManager.JouerSonMauvaiseReponse();
@@ -131,6 +139,10 @@ public class BurgerManager : MonoBehaviour
         if (indexIngredient >= commandeClient.ingredients.Count)
         {
             Debug.Log("Commande terminée avec succès !");
+            if (flashCommande != null)
+            {
+                flashCommande.FlashVert();
+            }
             // Jouer le son de réussite
             if (audioManager != null)
             {
