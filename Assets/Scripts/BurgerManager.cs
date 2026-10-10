@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using System.Collections;
 
 public class BurgerManager : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class BurgerManager : MonoBehaviour
 
     public bool partieTerminee = false;
     private int indexIngredient = 0;
+    private bool animationEnCours = false;
 
     void Start()
     {
@@ -101,22 +103,87 @@ public class BurgerManager : MonoBehaviour
             audioManager.JouerSonMauvaiseReponse();
         }
 
-        // Supprimer le burger
-        ViderBurger();
+        // Faire disparaître le burger avec animation
+        StartCoroutine(ErreurIngredientAvecAnimation());
 
-        // Recommencer la même commande
+        return false;
+    }
+
+    IEnumerator AnimationDisparitionBurger()
+    {
+        float duree = 0.3f;
+        float temps = 0f;
+
+        // Sauvegarder les tailles de départ
+        List<Vector3> taillesInitiales = new List<Vector3>();
+
+        foreach (Ingredient ingredient in ingredients)
+        {
+            taillesInitiales.Add(ingredient.transform.localScale);
+        }
+
+        // Réduire progressivement tous les ingrédients
+        while (temps < duree)
+        {
+            temps += Time.deltaTime;
+
+            float progression = Mathf.Clamp01(temps / duree);
+
+            for (int i = 0; i < ingredients.Count; i++)
+            {
+                if (ingredients[i] != null)
+                {
+                    ingredients[i].transform.localScale =
+                        Vector3.Lerp(
+                            taillesInitiales[i],
+                            Vector3.zero,
+                            progression
+                        );
+                }
+            }
+
+            yield return null;
+        }
+
+        // Supprimer le burger après l'animation
+        ViderBurger();
+    }
+
+    IEnumerator TerminerCommandeAvecAnimation()
+    {
+        animationEnCours = true;
+
+        yield return StartCoroutine(AnimationDisparitionBurger());
+
+        commandeClient.GenererCommande();
+        indexIngredient = 0;
+        ReinitialiserFleche();
+
+        animationEnCours = false;
+    }
+
+    IEnumerator ErreurIngredientAvecAnimation()
+    {
+        // Bloquer les clics pendant l'animation
+        animationEnCours = true;
+
+        // Attendre la disparition du burger
+        yield return StartCoroutine(AnimationDisparitionBurger());
+
+        // Recommencer la même commande depuis le début
         indexIngredient = 0;
 
         // Remettre la flèche au début
         ReinitialiserFleche();
 
-        return false;
+        // Autoriser à nouveau les clics
+        animationEnCours = false;
     }
 
     // Méthode principale appelée par les boutons
     public void ChoisirIngredient(Ingredient ingredientChoisi)
     {
-        if (partieTerminee)
+        if (partieTerminee || animationEnCours)
         {
             return;
         }
@@ -197,17 +264,8 @@ public class BurgerManager : MonoBehaviour
             Debug.Log("Étoiles gagnées : " + etoilesGagnees);
             Debug.Log("Total étoiles : " + totalEtoiles);
 
-            // Supprimer le burger terminé
-            ViderBurger();
-
-            // Générer une nouvelle commande
-            commandeClient.GenererCommande();
-
-            // Recommencer au premier ingrédient
-            indexIngredient = 0;
-
-            // Remettre la flèche au début
-            ReinitialiserFleche();
+            // Lancer la coroutine pour terminer la commande avec animation
+            StartCoroutine(TerminerCommandeAvecAnimation());
         }
         else
         {
