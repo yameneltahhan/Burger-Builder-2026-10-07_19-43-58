@@ -41,8 +41,8 @@ public class CommandeClient : MonoBehaviour
         // Effacer l'ancienne commande
         ingredients.Clear();
 
-        // Choisir entre 2 et 5 garnitures
-        int nombreIngredients = Random.Range(2, 6);
+        // Choisir entre 1 et 5 garnitures
+        int nombreIngredients = Random.Range(1, 6);
 
         // Ajouter le pain du bas
         ingredients.Add(painbas);
