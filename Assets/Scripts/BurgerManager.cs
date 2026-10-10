@@ -222,7 +222,7 @@ public class BurgerManager : MonoBehaviour
         ingredients.Add(ingredient);
 
         // Calculer la hauteur
-        float y = -3f + (ingredients.Count * 0.2f);
+        float y = -1.9f + (ingredients.Count * 0.2f);
 
         // Position du burger
         ingredient.transform.position =
