@@ -132,6 +132,42 @@ public class BurgerManager : MonoBehaviour
         // L'ajouter au burger
         AddIngredient(nouvelIngredient);
 
+        if(audioManager != null)
+        {
+            if (ingredientChoisi == painbas || ingredientChoisi == painhaut)
+            {
+                audioManager.JouerSonIngredient("Pain");
+            }
+            else if (ingredientChoisi == salade)
+            {
+                audioManager.JouerSonIngredient("Salade");
+            }
+            else if (ingredientChoisi == tomate)
+            {
+                audioManager.JouerSonIngredient("Tomate");
+            }
+            else if (ingredientChoisi == fromage)
+            {
+                audioManager.JouerSonIngredient("Fromage");
+            }
+            else if (ingredientChoisi == viande)
+            {
+                audioManager.JouerSonIngredient("Viande");
+            }
+            else if (ingredientChoisi == poisson)
+            {
+                audioManager.JouerSonIngredient("Poisson");
+            }
+            else if (ingredientChoisi == oignon)
+            {
+                audioManager.JouerSonIngredient("Oignon");
+            }
+            else if (ingredientChoisi == ketchup || ingredientChoisi == mayonnaise)
+            {
+                audioManager.JouerSonIngredient("SauceBurger");
+            }
+        }
+
         // Passer à l'ingrédient suivant
         indexIngredient++;
 
