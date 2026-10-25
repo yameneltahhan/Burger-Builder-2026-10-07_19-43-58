@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0de3897ee33abd2459a0e35cb01c5466
+guid: c1d54a453572a9246acaef756053119b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8453890923445766294
-    second: Group 12_0
+      213: 7195143763150253938
+    second: PoissonsSeul_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Group 12_0
+      name: PoissonsSeul_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 125
-        height: 27
+        x: 2
+        y: 1
+        width: 33
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 69842e51101425570800000000000000
-      internalID: 8453890923445766294
+      spriteID: 27f207e81294ad360800000000000000
+      internalID: 7195143763150253938
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Group 12_0: 8453890923445766294
+      PoissonsSeul_0: 7195143763150253938
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

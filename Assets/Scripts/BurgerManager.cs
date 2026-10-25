@@ -6,6 +6,11 @@ using System.Collections;
 
 public class BurgerManager : MonoBehaviour
 {
+    [Header("Position et taille du burger")]
+    public float positionX = -5f;
+    public float positionY = -1.9f;
+    public float tailleIngredients = 4.5f;
+    public float espacementIngredients = 0.2f;
     [Header("Ingrédients du joueur")]
     public List<Ingredient> ingredients = new List<Ingredient>();
 
@@ -279,18 +284,29 @@ public class BurgerManager : MonoBehaviour
     {
         ingredients.Add(ingredient);
 
-        // Calculer la hauteur
-        float y = -1.9f + (ingredients.Count * 0.2f);
+        // Calculer la hauteur de chaque ingrédient
+        float y = positionY + (ingredients.Count * espacementIngredients);
 
-        // Position du burger
+        // Placer l'ingrédient sur le plateau
         ingredient.transform.position =
-            new Vector3(-5f, y, 0f);
+            new Vector3(positionX, y, 0f);
 
-        // Taille des ingrédients
-        ingredient.transform.localScale =
-            Vector3.one * 4.5f;
+        // Régler sa taille
+        if (ingredient.name.StartsWith(poisson.name))
+        {
+            ingredient.transform.localScale = new Vector3(
+                tailleIngredients,
+                tailleIngredients * 1.3f,
+                tailleIngredients
+            );
+        }
+        else
+        {
+            ingredient.transform.localScale =
+                Vector3.one * tailleIngredients;
+        }
 
-        // Ordre d'affichage
+        // Gérer l'ordre d'affichage
         SpriteRenderer sprite =
             ingredient.GetComponent<SpriteRenderer>();
 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: baaebe1dd7b3e6e428339f6a90de8236
+guid: 9a7f7bbb7c473f641ad5f46402e23919
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8220129583113407408
-    second: Group 12-1_0
+      213: 4866944599693457461
+    second: PainHaut_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Group 12-1_0
+      name: PainHaut_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 05478de32bb3ced80800000000000000
-      internalID: -8220129583113407408
+      spriteID: 538fb36c35cda8340800000000000000
+      internalID: 4866944599693457461
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Group 12-1_0: -8220129583113407408
+      PainHaut_0: 4866944599693457461
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

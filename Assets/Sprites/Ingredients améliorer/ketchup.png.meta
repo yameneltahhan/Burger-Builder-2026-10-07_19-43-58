@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 091a4b7a87b6be145beec97d3265233e
+guid: d03abf9494d45214badabb4206c6c48a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3414671792396596638
-    second: Rectangle 34_0
+      213: -9032648240131754058
+    second: ketchup_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Rectangle 34_0
+      name: ketchup_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e95785a47e9536f20800000000000000
-      internalID: 3414671792396596638
+      spriteID: 6b7b3e9584695a280800000000000000
+      internalID: -9032648240131754058
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Rectangle 34_0: 3414671792396596638
+      ketchup_0: -9032648240131754058
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
