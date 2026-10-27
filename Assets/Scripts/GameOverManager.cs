@@ -33,7 +33,7 @@ public class GameOverManager : MonoBehaviour
 
         CacherPanneaux();
 
-        if (totalEtoiles >= 45)
+        if (totalEtoiles >= 50)
         {
             panneauAmazing.SetActive(true);
         }
